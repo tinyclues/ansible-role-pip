@@ -10,12 +10,13 @@
 - name: set pip install script url
   set_fact:
     pip_install_script_url: https://bootstrap.pypa.io/get-pip.py
-  when: ansible_python_version is version_compare('2.7', '>=')
+  when: ansible_python_version is version_compare('3.6', '>=')
 
 - name: set pip install script url
   set_fact:
-    pip_install_script_url: https://bootstrap.pypa.io/2.6/get-pip.py
-  when: ansible_python_version is version_compare('2.7', '<')
+    pip_install_script_url: https://bootstrap.pypa.io/{{ item }}/get-pip.py
+  with_items: ansible_python_version
+  when: ansible_python_version is version_compare('3.6', '<')
 
 - name: ensure pip cache dir present
   file:
